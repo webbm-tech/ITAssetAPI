@@ -7,4 +7,5 @@ public class ITAssetDbContext : DbContext
     public DbSet<Building> Buildings {get; set;}
     public DbSet<Location> Locations {get; set;}
     public DbSet <RoomType> RoomTypes {get; set;}
+    
 }

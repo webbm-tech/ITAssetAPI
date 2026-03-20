@@ -1,6 +1,5 @@
-public class Equipment
+public class EquipmentCreateRequest
 {
-    public int EquipmentID {get; set;}
     public string EquipmentName {get; set;}
     public string EquipmentModel {get; set;}
     public string SerialNumber {get; set;}

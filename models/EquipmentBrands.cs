@@ -1,5 +1,5 @@
-public class EquipmentBrands
+public class EquipmentBrand
 {
-    public int BrandID {get; set;}
+    public int EquipmentBrandID {get; set;}
     public int BrandName {get; set;}
 }

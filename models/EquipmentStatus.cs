@@ -1,6 +1,6 @@
-public class EquipmentStatuses
+public class EquipmentStatus
 {
-    public int StatusID {get; set;}
+    public int EquipmentStatusID {get; set;}
     public string StatusName {get; set;}
     public string StatusDescription {get; set;}
 }

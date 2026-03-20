@@ -1,6 +1,6 @@
 public class RoomType
 {
-    public int RoomClassID {get; set;}
+    public int RoomTypeID {get; set;}
     public string RoomTypeDescription {get; set;}
-    
+
 }
