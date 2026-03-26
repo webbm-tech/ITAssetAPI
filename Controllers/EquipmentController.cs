@@ -19,8 +19,8 @@ public class EquipmentController : ControllerBase
         equipment.ServiceTag = request.ServiceTag;
         equipment.OtherIDNumber = request.OtherIDNumber;
         equipment.EquipmentTypeID = request.EquipmentTypeID;
-        equipment.BrandID = request.BrandID;
-        equipment.StatusID = request.StatusID;
+        equipment.EquipmentBrandID = request.EquipmentBrandID;
+        equipment.EquipmentStatusID = request.EquipmentStatusID;
         equipment.LocationID = request.LocationID;
         
         return equipment;

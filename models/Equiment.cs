@@ -14,7 +14,7 @@ public class Equipment
     public int EquipmentBrandID {get; set;}
     public EquipmentBrand EquipmentBrand {get; set;}
 
-    public int StatusID {get; set;}
+    public int EquipmentStatusID {get; set;}
     public EquipmentStatus EquipmentStatus {get; set;}
 
     public int LocationID {get; set;}
