@@ -9,7 +9,14 @@ public class Equipment
     
     //Relational Data
     public int EquipmentTypeID {get;set;}
-    public int BrandID {get; set;}
+    public EquipmentType EquipmentType {get; set;}
+
+    public int EquipmentBrandID {get; set;}
+    public EquipmentBrand EquipmentBrand {get; set;}
+
     public int StatusID {get; set;}
+    public EquipmentStatus EquipmentStatus {get; set;}
+
     public int LocationID {get; set;}
+    public Location Location {get; set;}
 }
