@@ -9,15 +9,24 @@ public class BuildingController : ControllerBase
     {
         this.iTAssetDbcontext = context;
     }
+
+    [HttpPost ("building")]
+    public Building CreateBuilding (BuildingCreateRequest request)
+    {
+        Building building = new Building();
+        building.BuildingName = request.BuildingName;
+        building.Abbreviation = request.Abbreviation;
+
+        iTAssetDbcontext.Buildings.Add(building);
+        iTAssetDbcontext.SaveChanges();
+
+        return building;
+    }
+
     [HttpGet("/building/{buildingID}")]
     public Building GetBuildingById(int buildingID)
     {
-       
-        Building building1 = new Building
-         { BuildingID = 1, BuildingName = "Bora Learning Center", Abbreviation = "BLC"};
-
         return iTAssetDbcontext.Buildings.Find(buildingID);
-
     }
 
     
