@@ -72,6 +72,9 @@ public class EquipmentController : ControllerBase
                 .Include(e => e.EquipmentBrand)
                 .Include(e => e.EquipmentStatus)
                 .Include(e => e.Location)
+                    .ThenInclude(l => l.Building)
+                .Include(e => e.Location)
+                    .ThenInclude(l => l.RoomType)
                 .FirstOrDefault(e => e.EquipmentID == equipmentID);
 
             if (equipment == null)
@@ -95,6 +98,9 @@ public class EquipmentController : ControllerBase
                 .Include(e => e.EquipmentBrand)
                 .Include(e => e.EquipmentStatus)
                 .Include(e => e.Location)
+                    .ThenInclude(l => l.Building)
+                .Include(e => e.Location)
+                    .ThenInclude(l => l.RoomType)
                 .Where(e => e.LocationID == locationID)
                 .ToList();
 
@@ -139,6 +145,10 @@ public class EquipmentController : ControllerBase
                 .Include(e => e.EquipmentBrand)
                 .Include(e => e.EquipmentStatus)
                 .Include(e => e.Location)
+                    .ThenInclude(l => l.Building)
+                .Include(e => e.Location)
+                    .ThenInclude(l => l.RoomType)                
+                    
                 .FirstOrDefault(e => e.EquipmentID == equipmentID);
 
             if (equipment == null)
