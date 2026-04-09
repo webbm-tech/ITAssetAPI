@@ -46,12 +46,15 @@ public class EquipmentController : ControllerBase
     {
         try
         {
-           return Ok(iTAssetDbcontext.Equipment
-            .Include(e => e.EquipmentType)
-            .Include(e => e.EquipmentBrand)
-            .Include(e => e.EquipmentStatus)
-            .Include(e => e.Location)
-            .ToList());
+            return Ok(iTAssetDbcontext.Equipment
+                .Include(e => e.EquipmentType)
+                .Include(e => e.EquipmentBrand)
+                .Include(e => e.EquipmentStatus)
+                .Include(e => e.Location)
+                    .ThenInclude(l => l.Building)
+                .Include(e => e.Location)
+                    .ThenInclude(l => l.RoomType)
+                .ToList());
         }
         catch (Exception ex)
         {
