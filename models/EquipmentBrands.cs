@@ -1,5 +1,5 @@
 public class EquipmentBrand
 {
     public int EquipmentBrandID {get; set;}
-    public int BrandName {get; set;}
+    public string BrandName {get; set;}
 }

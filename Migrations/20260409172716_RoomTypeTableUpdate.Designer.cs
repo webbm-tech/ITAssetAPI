@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ITAssetAPI.Migrations
 {
     [DbContext(typeof(ITAssetDbContext))]
-    [Migration("20260409133255_DBTableUpdates")]
-    partial class DBTableUpdates
+    [Migration("20260409172716_RoomTypeTableUpdate")]
+    partial class RoomTypeTableUpdate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -103,12 +103,55 @@ namespace ITAssetAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EquipmentBrandID"));
 
-                    b.Property<int>("BrandName")
-                        .HasColumnType("int");
+                    b.Property<string>("BrandName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("EquipmentBrandID");
 
                     b.ToTable("EquipmentBrands");
+
+                    b.HasData(
+                        new
+                        {
+                            EquipmentBrandID = 1,
+                            BrandName = "Dell"
+                        },
+                        new
+                        {
+                            EquipmentBrandID = 2,
+                            BrandName = "HP"
+                        },
+                        new
+                        {
+                            EquipmentBrandID = 3,
+                            BrandName = "Lenovo"
+                        },
+                        new
+                        {
+                            EquipmentBrandID = 4,
+                            BrandName = "Apple"
+                        },
+                        new
+                        {
+                            EquipmentBrandID = 5,
+                            BrandName = "ClearTouch"
+                        },
+                        new
+                        {
+                            EquipmentBrandID = 6,
+                            BrandName = "Poly"
+                        },
+                        new
+                        {
+                            EquipmentBrandID = 7,
+                            BrandName = "Bizhub"
+                        },
+                        new
+                        {
+                            EquipmentBrandID = 8,
+                            BrandName = "Kyocera"
+                        });
                 });
 
             modelBuilder.Entity("EquipmentStatus", b =>
@@ -130,6 +173,38 @@ namespace ITAssetAPI.Migrations
                     b.HasKey("EquipmentStatusID");
 
                     b.ToTable("EquipmentStatuses");
+
+                    b.HasData(
+                        new
+                        {
+                            EquipmentStatusID = 1,
+                            StatusDescription = "In use and operational",
+                            StatusName = "Active"
+                        },
+                        new
+                        {
+                            EquipmentStatusID = 2,
+                            StatusDescription = "Currently being serviced",
+                            StatusName = "In Repair"
+                        },
+                        new
+                        {
+                            EquipmentStatusID = 3,
+                            StatusDescription = "Not deployed",
+                            StatusName = "In Storage"
+                        },
+                        new
+                        {
+                            EquipmentStatusID = 4,
+                            StatusDescription = "End of life",
+                            StatusName = "Retired"
+                        },
+                        new
+                        {
+                            EquipmentStatusID = 5,
+                            StatusDescription = "Location unknown",
+                            StatusName = "Missing"
+                        });
                 });
 
             modelBuilder.Entity("EquipmentType", b =>
@@ -140,10 +215,6 @@ namespace ITAssetAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EquipmentTypeID"));
 
-                    b.Property<string>("RoomTypeDescription")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("TypeName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -151,6 +222,48 @@ namespace ITAssetAPI.Migrations
                     b.HasKey("EquipmentTypeID");
 
                     b.ToTable("EquipmentTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            EquipmentTypeID = 1,
+                            TypeName = "Desktop"
+                        },
+                        new
+                        {
+                            EquipmentTypeID = 2,
+                            TypeName = "Laptop"
+                        },
+                        new
+                        {
+                            EquipmentTypeID = 3,
+                            TypeName = "All-in-One"
+                        },
+                        new
+                        {
+                            EquipmentTypeID = 4,
+                            TypeName = "Printer"
+                        },
+                        new
+                        {
+                            EquipmentTypeID = 5,
+                            TypeName = "Interactive Display"
+                        },
+                        new
+                        {
+                            EquipmentTypeID = 6,
+                            TypeName = "Phone"
+                        },
+                        new
+                        {
+                            EquipmentTypeID = 7,
+                            TypeName = "Monitor"
+                        },
+                        new
+                        {
+                            EquipmentTypeID = 8,
+                            TypeName = "PC Module"
+                        });
                 });
 
             modelBuilder.Entity("Location", b =>
@@ -195,6 +308,43 @@ namespace ITAssetAPI.Migrations
                     b.HasKey("RoomTypeID");
 
                     b.ToTable("RoomTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            RoomTypeID = 1,
+                            RoomTypeDescription = "Classroom"
+                        },
+                        new
+                        {
+                            RoomTypeID = 2,
+                            RoomTypeDescription = "Computer Lab"
+                        },
+                        new
+                        {
+                            RoomTypeID = 3,
+                            RoomTypeDescription = "Faculty Office"
+                        },
+                        new
+                        {
+                            RoomTypeID = 4,
+                            RoomTypeDescription = "Staff Office"
+                        },
+                        new
+                        {
+                            RoomTypeID = 5,
+                            RoomTypeDescription = "Conference Room"
+                        },
+                        new
+                        {
+                            RoomTypeID = 6,
+                            RoomTypeDescription = "Storage"
+                        },
+                        new
+                        {
+                            RoomTypeID = 7,
+                            RoomTypeDescription = "IT"
+                        });
                 });
 
             modelBuilder.Entity("Equipment", b =>

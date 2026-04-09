@@ -35,4 +35,25 @@ public class LocationController : ControllerBase
             return NotFound();
         return Ok(locations);
     }
+
+    [HttpPost]
+    public ActionResult<Location> CreateLocation(LocationCreateRequest request)
+    {
+        try
+        {
+            Location location = new Location();
+            location.RoomNumber = request.RoomNumber;
+            location.BuildingID = request.BuildingID;
+            location.RoomTypeID = request.RoomTypeID;
+
+            iTAssetDbcontext.Locations.Add(location);
+            iTAssetDbcontext.SaveChanges();
+
+            return CreatedAtAction(nameof(GetLocationById), new { locationID = location.LocationID }, location);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.InnerException?.Message ?? ex.Message);
+        }
+    }
 }
