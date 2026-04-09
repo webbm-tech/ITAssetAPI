@@ -12,7 +12,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ITAssetDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-    );
+);
+
+builder.Services.AddScoped<LocationRepository>(); // ADDS THIS LOCATION REPOSITORY TO THE DEPENDENCY INJECTION CONTAINER SO WE CAN USE IT EVERYWHERE IT'S NEEDED
 
 var app = builder.Build();
 
