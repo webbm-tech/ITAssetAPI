@@ -1,0 +1,59 @@
+using Microsoft.AspNetCore.Mvc;
+[ApiController]
+[Route("api/[controller]")]
+public class LocationController : ControllerBase
+{
+    private ITAssetDbContext iTAssetDbcontext;
+
+    public LocationController(ITAssetDbContext context)
+    {
+        this.iTAssetDbcontext = context;
+    }
+
+    [HttpGet]
+    public ActionResult<IEnumerable<Location>> GetAllLocations()
+    {
+        return Ok(iTAssetDbcontext.Locations.ToList());
+    }
+
+    [HttpGet("{locationID}")]
+    public ActionResult<Location> GetLocationById(int locationID)
+    {
+        var location = iTAssetDbcontext.Locations.Find(locationID);
+        if (location == null)
+            return NotFound();
+        return Ok(location);
+    }
+
+    [HttpGet("building/{buildingID}")]
+    public ActionResult<IEnumerable<Location>> GetLocationsByBuilding(int buildingID)
+    {
+        var locations = iTAssetDbcontext.Locations
+            .Where(l => l.BuildingID == buildingID)
+            .ToList();
+        if (!locations.Any())
+            return NotFound();
+        return Ok(locations);
+    }
+
+    [HttpPost]
+    public ActionResult<Location> CreateLocation(LocationCreateRequest request)
+    {
+        try
+        {
+            Location location = new Location();
+            location.RoomNumber = request.RoomNumber;
+            location.BuildingID = request.BuildingID;
+            location.RoomTypeID = request.RoomTypeID;
+
+            iTAssetDbcontext.Locations.Add(location);
+            iTAssetDbcontext.SaveChanges();
+
+            return CreatedAtAction(nameof(GetLocationById), new { locationID = location.LocationID }, location);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.InnerException?.Message ?? ex.Message);
+        }
+    }
+}
