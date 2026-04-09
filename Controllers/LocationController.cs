@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
 [ApiController]
 [Route("api/[controller]")]
 public class LocationController : ControllerBase
@@ -13,27 +15,60 @@ public class LocationController : ControllerBase
     [HttpGet]
     public ActionResult<IEnumerable<Location>> GetAllLocations()
     {
-        return Ok(iTAssetDbcontext.Locations.ToList());
+        try
+        {
+            return Ok(iTAssetDbcontext.Locations
+                .Include(l => l.Building)
+                .Include(l => l.RoomType)
+                .ToList());
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.InnerException?.Message ?? ex.Message);
+        }
     }
 
     [HttpGet("{locationID}")]
     public ActionResult<Location> GetLocationById(int locationID)
     {
-        var location = iTAssetDbcontext.Locations.Find(locationID);
-        if (location == null)
-            return NotFound();
-        return Ok(location);
+        try
+        {
+            var location = iTAssetDbcontext.Locations
+                .Include(l => l.Building)
+                .Include(l => l.RoomType)
+                .FirstOrDefault(l => l.LocationID == locationID);
+
+            if (location == null)
+                return NotFound();
+
+            return Ok(location);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.InnerException?.Message ?? ex.Message);
+        }
     }
 
     [HttpGet("building/{buildingID}")]
     public ActionResult<IEnumerable<Location>> GetLocationsByBuilding(int buildingID)
     {
-        var locations = iTAssetDbcontext.Locations
-            .Where(l => l.BuildingID == buildingID)
-            .ToList();
-        if (!locations.Any())
-            return NotFound();
-        return Ok(locations);
+        try
+        {
+            var locations = iTAssetDbcontext.Locations
+                .Include(l => l.Building)
+                .Include(l => l.RoomType)
+                .Where(l => l.BuildingID == buildingID)
+                .ToList();
+
+            if (!locations.Any())
+                return NotFound();
+
+            return Ok(locations);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.InnerException?.Message ?? ex.Message);
+        }
     }
 
     [HttpPost]

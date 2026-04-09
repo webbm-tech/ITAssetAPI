@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
 [ApiController]
 [Route("api/[controller]")]
 public class EquipmentController : ControllerBase
@@ -44,7 +46,12 @@ public class EquipmentController : ControllerBase
     {
         try
         {
-            return Ok(iTAssetDbcontext.Equipment.ToList());
+           return Ok(iTAssetDbcontext.Equipment
+            .Include(e => e.EquipmentType)
+            .Include(e => e.EquipmentBrand)
+            .Include(e => e.EquipmentStatus)
+            .Include(e => e.Location)
+            .ToList());
         }
         catch (Exception ex)
         {
@@ -55,44 +62,82 @@ public class EquipmentController : ControllerBase
     [HttpGet("{equipmentID}")]
     public ActionResult<Equipment> GetEquipmentById(int equipmentID)
     {
-        var equipment = iTAssetDbcontext.Equipment.Find(equipmentID);
-        if (equipment == null)
-            return NotFound();
-        return Ok(equipment);
+        try
+        {
+            var equipment = iTAssetDbcontext.Equipment
+                .Include(e => e.EquipmentType)
+                .Include(e => e.EquipmentBrand)
+                .Include(e => e.EquipmentStatus)
+                .Include(e => e.Location)
+                .FirstOrDefault(e => e.EquipmentID == equipmentID);
+
+            if (equipment == null)
+                return NotFound();
+
+            return Ok(equipment);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.InnerException?.Message ?? ex.Message);
+        }
     }
 
-    [HttpGet("/equipment/location/{locationID}")]
-    public ActionResult<Equipment> GetEquipmentByLocation(int locationID)
+    [HttpGet("location/{locationID}")]
+    public ActionResult<IEnumerable<Equipment>> GetEquipmentByLocation(int locationID)
     {
-        var equipment = iTAssetDbcontext.Equipment.Find(locationID);
-        if (equipment == null)
-            return NotFound();
-        return Ok(equipment);
+        try
+        {
+            var equipment = iTAssetDbcontext.Equipment
+                .Include(e => e.EquipmentType)
+                .Include(e => e.EquipmentBrand)
+                .Include(e => e.EquipmentStatus)
+                .Include(e => e.Location)
+                .Where(e => e.LocationID == locationID)
+                .ToList();
+
+            if (!equipment.Any())
+                return NotFound();
+
+            return Ok(equipment);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.InnerException?.Message ?? ex.Message);
+        }
     }
 
-[HttpGet("unassigned")]
-public ActionResult<IEnumerable<Equipment>> GetEquipmentWithoutLocation()
-{
-    try
+    [HttpGet("unassigned")]
+    public ActionResult<IEnumerable<Equipment>> GetEquipmentWithoutLocation()
     {
-        var unassigned = iTAssetDbcontext.Equipment
-            .Where(e => e.LocationID == null)
-            .ToList();
+        try
+        {
+            var unassigned = iTAssetDbcontext.Equipment
+                .Include(e => e.EquipmentType)
+                .Include(e => e.EquipmentBrand)
+                .Include(e => e.EquipmentStatus)
+                .Where(e => e.LocationID == null)
+                .ToList();
 
-        return Ok(unassigned);
+            return Ok(unassigned);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.InnerException?.Message ?? ex.Message);
+        }
     }
-    catch (Exception ex)
-    {
-        return StatusCode(500, ex.Message);
-    }
-}
 
     [HttpPut("{equipmentID}/status")]
     public ActionResult<Equipment> ChangeEquipmentStatusByID(int equipmentID, [FromBody] EquipmentStatusUpdateRequest request)
     {
         try
         {
-            var equipment = iTAssetDbcontext.Equipment.Find(equipmentID);
+            var equipment = iTAssetDbcontext.Equipment
+                .Include(e => e.EquipmentType)
+                .Include(e => e.EquipmentBrand)
+                .Include(e => e.EquipmentStatus)
+                .Include(e => e.Location)
+                .FirstOrDefault(e => e.EquipmentID == equipmentID);
+
             if (equipment == null)
                 return NotFound();
 
@@ -103,7 +148,7 @@ public ActionResult<IEnumerable<Equipment>> GetEquipmentWithoutLocation()
         }
         catch (Exception ex)
         {
-            return StatusCode(500, ex.Message);
+            return StatusCode(500, ex.InnerException?.Message ?? ex.Message);
         }
     }
 }

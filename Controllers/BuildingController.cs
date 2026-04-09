@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 [ApiController]
 public class BuildingController : ControllerBase
@@ -23,7 +24,7 @@ public class BuildingController : ControllerBase
         return building;
     }
 
-    [HttpGet("/building/{buildingID}")]
+    [HttpGet("{buildingID}")]
     public Building GetBuildingById(int buildingID)
     {
         return iTAssetDbcontext.Buildings.Find(buildingID);
