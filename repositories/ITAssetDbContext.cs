@@ -8,4 +8,8 @@ public class ITAssetDbContext : DbContext
     public DbSet<Location> Locations {get; set;}
     public DbSet <RoomType> RoomTypes {get; set;}
     
+    public DbSet<EquipmentBrand> EquipmentBrands {get; set;}
+    public DbSet<EquipmentStatus> EquipmentStatuses {get; set;}
+    public DbSet<EquipmentType> EquipmentTypes {get; set;}
+    public DbSet<Equipment> Equipment {get; set;}
 }
