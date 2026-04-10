@@ -16,6 +16,16 @@ builder.Services.AddDbContext<ITAssetDbContext>(
 
 builder.Services.AddScoped<LocationRepository>(); // ADDS THIS LOCATION REPOSITORY TO THE DEPENDENCY INJECTION CONTAINER SO WE CAN USE IT EVERYWHERE IT'S NEEDED
 
+// Exception Handler (before builder.Build() is called)
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+
+builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
+    {
+        // Don't automatically validate request bodies, as we will do our own validation.
+        options.SuppressModelStateInvalidFilter = true;
+    }
+);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -13,6 +13,10 @@ public class BuildingController : ControllerBase
     [HttpPost ("building")]
     public Building CreateBuilding (BuildingCreateRequest request)
     {
+        if (!ModelState.IsValid)
+        {
+            throw new InvalidInputException("Invalid building create request", ModelState);
+        }
         Building building = new Building();
         building.BuildingName = request.BuildingName;
         building.Abbreviation = request.Abbreviation;
