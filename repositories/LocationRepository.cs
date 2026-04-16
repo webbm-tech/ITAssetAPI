@@ -21,6 +21,19 @@ public class LocationRepository
         .ToList();
     }
 
+    public Location GetLocationById(int locationID)
+    {
+        return iTAssetDbcontext.Locations.Find(locationID);
+    }
+
+    public IEnumerable<Location> GetLocationsByBuilding(int buildingID)
+    {
+        return iTAssetDbcontext.Locations
+            .Where(l => l.BuildingID == buildingID)
+            .ToList();
+    }
+
+    
     /// <summary>
     /// Saves a new location to the database, given a valid LocationCreateRequest.
     /// </summary>
