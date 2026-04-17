@@ -29,9 +29,9 @@ public class LocationRepository
     public Location GetLocationById(int locationID)
     {
         return iTAssetDbcontext.Locations
-        .Include(location => location.Building)
-        .Include(location => location.RoomType)
-        .FirstOrDefault(location => location.LocationID == locationID);
+            .Include(location => location.Building)
+            .Include(location => location.RoomType)
+            .First(location => location.LocationID == locationID);
     }
 
 
