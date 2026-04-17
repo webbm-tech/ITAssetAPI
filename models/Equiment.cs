@@ -3,16 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 public class Equipment
 {
-    public int EquipmentID {get; set;}
-       
-    [Required(ErrorMessage = "Equipment name is required.")]
-    public required string EquipmentName {get; set;}
-
-    [Required(ErrorMessage = "Equipment model is required.")]
-    public required string EquipmentModel {get; set;}
-
-    [Required(ErrorMessage = "Equipment serial number is required.")]
-    public required string SerialNumber {get; set;}
+    public int EquipmentID {get; set;}   
+    public string? EquipmentName {get; set;}
+    public string? EquipmentModel {get; set;}
+    public string? SerialNumber {get; set;}
     public string? ServiceTag {get; set;}
     public string? OtherIDNumber {get;set;}
     

@@ -15,6 +15,7 @@ builder.Services.AddDbContext<ITAssetDbContext>(
 );
 
 builder.Services.AddScoped<LocationRepository>(); // ADDS THIS LOCATION REPOSITORY TO THE DEPENDENCY INJECTION CONTAINER SO WE CAN USE IT EVERYWHERE IT'S NEEDED
+builder.Services.AddScoped<EquipmentRepository>(); // ADDS THIS EQUIPMENT REPOSITORY TO THE DEPENDENCY INJECTION CONTAINER SO WE CAN USE IT EVERYWHERE IT'S NEEDED
 
 // Exception Handler (before builder.Build() is called)
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();

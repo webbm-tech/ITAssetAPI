@@ -10,6 +10,10 @@ public class LocationController : ControllerBase
         this.locationRepository = locationRepository;
     }
 
+    /// <summary>
+    /// Gets all locations 
+    /// </summary>
+    /// <returns> IEnumberable containing all locations</returns>
     [HttpGet]
     public ActionResult<IEnumerable<Location>> GetAllLocations()
     {
@@ -18,6 +22,11 @@ public class LocationController : ControllerBase
         );
     }
 
+    /// <summary>
+    /// Retreives a location in the database by location ID
+    /// </summary>
+    /// <param name="locationID"> The ID of the location </param>
+    /// <returns> a location</returns>
    [HttpGet("{locationID}")]
     public ActionResult<Location> GetLocationById(int locationID)
     {   var location = locationRepository.GetLocationById(locationID);
@@ -26,6 +35,11 @@ public class LocationController : ControllerBase
         return locationRepository.GetLocationById(locationID);
     }
 
+    /// <summary>
+    /// Retreives all locations in a specified building
+    /// </summary>
+    /// <param name="buildingID"> ID of the buildng requested</param>
+    /// <returns>A IEnumerable containing all of the locations in a specified building</returns>
     [HttpGet("building/{buildingID}")]
     public ActionResult <IEnumerable<Location>> GetLocationsByBuilding(int buildingID)
     {
@@ -35,6 +49,11 @@ public class LocationController : ControllerBase
         return Ok(locations);
     }
 
+    /// <summary>
+    /// Saves a new location to the database, given a valid LocationCreateRequest.
+    /// </summary>
+    /// <param name="request">The valid LocationCreateRequest to persist.</param>
+    /// <returns>The created Location to return, with its ID.</returns>
     [HttpPost]
     public ActionResult<Location> CreateLocation(LocationCreateRequest request)
     {
