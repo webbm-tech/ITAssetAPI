@@ -21,19 +21,35 @@ public class LocationRepository
         .ToList();
     }
 
+    /// <summary>
+    /// Retreives a location in the database by location ID
+    /// </summary>
+    /// <param name="locationID"> The ID of the location </param>
+    /// <returns> a location</returns>
     public Location GetLocationById(int locationID)
     {
-        return iTAssetDbcontext.Locations.Find(locationID);
+        return iTAssetDbcontext.Locations
+        .Include(location => location.Building)
+        .Include(location => location.RoomType)
+        .FirstOrDefault(location => location.LocationID == locationID);
     }
 
+
+    /// <summary>
+    /// Retreives all locations in a specified building
+    /// </summary>
+    /// <param name="buildingID"> ID of the buildng requested</param>
+    /// <returns>A IEnumerable containing all of the locations in a specified building</returns>
     public IEnumerable<Location> GetLocationsByBuilding(int buildingID)
     {
         return iTAssetDbcontext.Locations
             .Where(l => l.BuildingID == buildingID)
+            .Include(location => location.Building)
+            .Include(location => location.RoomType)
             .ToList();
     }
 
-    
+
     /// <summary>
     /// Saves a new location to the database, given a valid LocationCreateRequest.
     /// </summary>
